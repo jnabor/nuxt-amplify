@@ -111,10 +111,11 @@
 
     <v-content>
       <v-divider></v-divider>
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
+      <v-container fluid fill-height class="pa-2">
+        <v-layout justify-center align-start>
 
-          <nuxt></nuxt>
+              <nuxt></nuxt>
+
         </v-layout>
       </v-container>
     </v-content>
