@@ -12,7 +12,6 @@
     <v-card-text class="pt-4 px-4">
       <v-alert outline type="error" dismissible class="mb-4 mt-0" v-model="showerr">
         {{ errmsg }}
-        <v-btn v-if="resend" flat small :to="'/auth/resend'">Re-send Confirmation</v-btn>
       </v-alert>
 
       <v-form v-model="valid" ref="form">
@@ -46,7 +45,7 @@
         @click.native="onSubmit()"
         :disabled="!valid"
         class="white--text"
-        color="blue accent-2">
+        color="button">
         Sign In
         <span slot="loader">Connecting...</span>
       </v-btn>
@@ -55,7 +54,7 @@
     <v-card-actions class="pb-2 px-4">
       <v-spacer></v-spacer>
       <v-btn nuxt flat small :to="'/auth/signup'">Sign Up</v-btn>
-      <v-btn nuxt flat small class="amber--text" :to="'/auth/resetpw'">Forgot Password?</v-btn>
+      <v-btn nuxt flat small class="amber--text" :to="'/auth/resetpw'">Reset Password</v-btn>
     </v-card-actions>
 
   </div>
@@ -70,7 +69,6 @@ export default {
     hidepw: true,
     loader: false,
     loading: false,
-    resend: false,
     email: '',
     emailrules: {
       required: value => !!value || 'E-mail is required',

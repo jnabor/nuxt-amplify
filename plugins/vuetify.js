@@ -7,6 +7,7 @@ Vue.use(Vuetify, {
     primary: colors.shades.white,
     accent: colors.blue.lighten1,
     secondary: colors.blueGrey.lighten4,
+    button: colors.blue.accent2,
     error: '#f44336',
     warning: '#FFCA28',
     info: '#2196f3',
