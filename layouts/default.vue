@@ -14,7 +14,7 @@
       color="primary"
     >
       <v-toolbar-side-icon
-        class="grey--text darken-2"
+        class="grey--text darken-3"
         @click.stop="drawer = !drawer"
         v-if="!this.$route.path.includes('auth')"
       />
@@ -31,13 +31,13 @@
         style="width: 300px"
         class="ml-0 pl-1"
       >
-        <span class="grey--text test--darken-1 font-weight-medium">Demo</span>
+        <span class="grey--text test--darken-3 font-weight-medium">Demo</span>
       </v-toolbar-title>
 
       <v-spacer />
       <v-toolbar-items >
         <v-btn
-          class="grey--text test--darken-2"
+          class="grey--text test--darken-3"
           @click="onNavigate('/auth/signin')"
           v-if="!this.$route.path.includes('auth')"
           flat
@@ -46,6 +46,7 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
+    <v-divider />
 
     <nuxt />
 
