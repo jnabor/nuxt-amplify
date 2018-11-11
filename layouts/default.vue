@@ -10,15 +10,15 @@
         <v-toolbar-side-icon
           class="grey--text darken-3"
           @click.stop="drawer = !drawer"
-          v-if="!this.$route.path.includes('auth')"
         />
-        <v-icon
-            large color="amber"
-            class="ml-0 pl-3"
-            @click="onNavigate('/')"
-        >
-          fingerprint
-        </v-icon>
+        <nuxt-link :to="'/'">
+          <v-icon
+              large color="amber"
+              class="ml-0 pl-3"
+          >
+            fingerprint
+          </v-icon>
+        </nuxt-link>
         <v-toolbar-title
           style="width: 300px"
           class="ml-0 pl-1"
@@ -29,8 +29,7 @@
         <v-toolbar-items >
           <v-btn
             class="grey--text test--darken-3"
-            @click="onNavigate('/auth/signin')"
-            v-if="!this.$route.path.includes('auth')"
+            nuxt :to="'/auth/signin'"
             flat
           >
             Sign In
@@ -41,7 +40,6 @@
     </div>
 
     <v-navigation-drawer
-      v-if="!this.$route.path.includes('auth')"
       :clipped="$vuetify.breakpoint.mdAndUp"
       v-model="drawer"
       fixed
@@ -154,24 +152,8 @@ export default {
           { text: 'Other contacts' }
         ]
       },
-      { icon: 'settings', text: 'Settings' },
+      { icon: 'settings', text: 'Settings' }
     ]
-  }),
-  methods: {
-    onNavigate(link) {
-      console.log(this.$route.path)
-      this.$router.push(link)
-    }
-  }
+  })
 }
 </script>
-
-<style>
-html {
-  font-family: 'Ubuntu', sans-serif;
-}
-body {
-  margin: 0;
-  padding: 0;
-}
-</style>

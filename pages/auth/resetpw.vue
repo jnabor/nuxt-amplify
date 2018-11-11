@@ -6,6 +6,10 @@
       color="white"
     >
       <span class="subheading">Reset Password</span>
+      <v-spacer></v-spacer>
+      <v-btn color="grey" flat icon nuxt :to="'/'">
+        <v-icon>home</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
 
@@ -123,6 +127,7 @@ export default {
       this.status = 1
     },
     onSubmit() {}
-  }
+  },
+  layout: 'auth'
 }
 </script>

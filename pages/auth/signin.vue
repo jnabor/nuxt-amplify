@@ -6,6 +6,10 @@
       color="white"
     >
       <span class="subheading">Sign In</span>
+      <v-spacer></v-spacer>
+      <v-btn color="grey" flat icon nuxt :to="'/'">
+        <v-icon>home</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
 
@@ -85,6 +89,7 @@ export default {
   }),
   methods: {
     onSubmit() {}
-  }
+  },
+  layout: 'auth'
 }
 </script>
