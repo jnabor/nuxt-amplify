@@ -7,7 +7,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: pkg.name,
+    title: 'Nuxt Amplify',
     meta: [
       {
         charset: 'utf-8'
@@ -26,7 +26,7 @@ module.exports = {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon.ico'
+        href: '/favicon_amber.png'
       },
       {
         rel: 'stylesheet',

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <v-toolbar dense
+    <v-toolbar
       class="pa-0 ma-0 elevation-0 grey--text text--darken-1"
       color="white"
     >
@@ -128,6 +128,9 @@ export default {
     },
     onSubmit() {}
   },
-  layout: 'auth'
+  layout: 'auth',
+  head: {
+    title: 'Reset Password'
+  }
 }
 </script>
