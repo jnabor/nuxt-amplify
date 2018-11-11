@@ -26,7 +26,7 @@ module.exports = {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/favicon_amber.png'
+        href: '/favicon.ico'
       },
       {
         rel: 'stylesheet',
@@ -40,7 +40,13 @@ module.exports = {
    ** Customize the progress-bar color
    */
   loading: {
-    color: '#fff'
+    color: '#FFCA28',
+    height: '3px',
+    duration: 5000
+  },
+  loadingIndicator: {
+    name: 'circle',
+    color: '#FFCA28'
   },
 
   /*
