@@ -9,8 +9,8 @@
       >
         <nuxt-link :to="'/'">
           <v-icon
-              large color="amber"
-              class="ml-0 pl-3"
+            large color="amber"
+            class="ml-0 pl-3"
           >
             fingerprint
           </v-icon>
@@ -20,7 +20,7 @@
           style="width: 300px"
           class="ml-0 pl-1"
         >
-        <span class="grey--text test--darken-3 font-weight-medium">Demo</span>
+          <span class="grey--text test--darken-3 font-weight-medium">Demo</span>
         </v-toolbar-title>
       </v-toolbar>
     </div>

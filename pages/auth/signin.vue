@@ -7,49 +7,49 @@
     >
       <span class="subheading">Sign In</span>
       <v-spacer></v-spacer>
-      <v-btn color="grey" flat icon nuxt :to="'/'">
+      <v-btn :to="'/'" color="grey" flat icon nuxt>
         <v-icon>home</v-icon>
       </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
 
     <v-card-text class="pt-4 px-4">
-      <v-alert outline type="error" dismissible class="mb-4 mt-0" v-model="showerr">
+      <v-alert v-model="showerr" outline type="error" dismissible class="mb-4 mt-0">
         {{ errmsg }}
       </v-alert>
 
-      <v-form v-model="valid" ref="form">
+      <v-form ref="form" v-model="valid">
 
         <v-text-field
-          color="grey"
-          label="E-mail"
           v-model="email"
           :rules="[emailrules.required, emailrules.email]"
+          color="grey"
+          label="E-mail"
           required>
         </v-text-field>
 
         <v-text-field
-          color="grey"
-          label="Password"
           v-model="password"
           :rules="passRules"
-          hint="At least 8 characters"
           :append-icon="hidepw ? 'visibility' : 'visibility_off'"
-          @click:append="() => (hidepw = !hidepw)"
           :type="hidepw ? 'password' : 'text'"
-          required>
+          color="grey"
+          label="Password"
+          hint="At least 8 characters"
+          required
+          @click:append="() => (hidepw = !hidepw)">
         </v-text-field>
 
       </v-form>
 
       <v-btn
+        :loading="loading"
+        :disabled="!valid"
         block
         large
-        :loading="loading"
-        @click.native="onSubmit()"
-        :disabled="!valid"
         class="white--text"
-        color="button">
+        color="button"
+        @click.native="onSubmit()">
         Sign In
         <span slot="loader">Connecting...</span>
       </v-btn>
@@ -57,8 +57,8 @@
 
     <v-card-actions class="pb-2 px-4">
       <v-spacer></v-spacer>
-      <v-btn nuxt flat small :to="'/auth/signup'">Sign Up</v-btn>
-      <v-btn nuxt flat small class="amber--text" :to="'/auth/resetpw'">Reset Password</v-btn>
+      <v-btn :to="'/auth/signup'" nuxt flat small>Sign Up</v-btn>
+      <v-btn :to="'/auth/resetpw'" nuxt flat small class="amber--text">Reset Password</v-btn>
     </v-card-actions>
 
   </div>
@@ -88,7 +88,9 @@ export default {
     ]
   }),
   methods: {
-    onSubmit() {}
+    onSubmit() {
+      this.$store.dispatch('auth/signInUser')
+    }
   },
   layout: 'auth',
   head: {

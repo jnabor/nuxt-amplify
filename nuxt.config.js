@@ -1,13 +1,13 @@
 const pkg = require('./package')
 
 module.exports = {
-  mode: 'universal',
+  mode: 'spa',
 
   /*
    ** Headers of the page
    */
   head: {
-    title: 'Nuxt Amplify',
+    title: 'System Demo',
     meta: [
       {
         charset: 'utf-8'
@@ -42,7 +42,7 @@ module.exports = {
   loading: {
     color: '#FFCA28',
     height: '3px',
-    duration: 5000
+    duration: 4000
   },
   loadingIndicator: {
     name: 'circle',
