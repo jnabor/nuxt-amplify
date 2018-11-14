@@ -2,10 +2,8 @@
   <v-app>
     <div>
       <v-toolbar
-        :clipped-left="$vuetify.breakpoint.mdAndUp"
         color="primary"
         class="elevation-0 ma-0 pa-0"
-        app
       >
         <v-toolbar-side-icon
           class="grey--text darken-3"
@@ -36,7 +34,7 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-
+      <v-divider></v-divider>
     </div>
 
     <v-navigation-drawer
@@ -45,12 +43,32 @@
       fixed
       app
     >
+      <v-toolbar flat class="transparent">
+        <v-toolbar-side-icon
+          class="grey--text darken-3"
+          @click.stop="drawer = !drawer">
+        </v-toolbar-side-icon>
+        <nuxt-link :to="'/'">
+          <v-icon
+            large color="amber"
+            class="ml-0 pl-3"
+          >
+            fingerprint
+          </v-icon>
+        </nuxt-link>
+        <v-toolbar-title
+          style="width: 300px"
+          class="ml-0 pl-1"
+        >
+          <span class="grey--text test--darken-3 font-weight-medium">Demo</span>
+        </v-toolbar-title>
+      </v-toolbar>
       <v-divider></v-divider>
 
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
-            <v-list-tile-avatar>
+            <v-list-tile-avatar size="30">
               <img src="https://randomuser.me/api/portraits/men/4.jpg">
             </v-list-tile-avatar>
 
@@ -124,7 +142,6 @@
 
 
     <v-content>
-      <v-divider></v-divider>
       <v-container fluid fill-height class="pa-2">
         <v-layout justify-center align-start>
 

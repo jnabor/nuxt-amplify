@@ -7,26 +7,26 @@
     >
       <span class="subheading">Reset Password</span>
       <v-spacer></v-spacer>
-      <v-btn color="grey" flat icon nuxt :to="'/'">
+      <v-btn :to="'/'" color="grey" flat icon nuxt>
         <v-icon>home</v-icon>
       </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
 
     <v-card-text class="pt-4 px-4">
-      <v-alert outline type="error" dismissible class="mb-4 mt-0" v-model="showerr">
+      <v-alert v-model="showerr" outline type="error" dismissible class="mb-4 mt-0">
         {{ errmsg }}
       </v-alert>
 
-      <v-form v-model="validemail" ref="emailform">
+      <v-form ref="emailform" v-model="validemail">
         <v-text-field
-          color="grey"
-          label="E-mail"
           v-model="email"
           :rules="[emailrules.required, emailrules.email]"
           :hint="msg"
+          :readonly="status === 1"
+          color="grey"
+          label="E-mail"
           persistent-hint
-          :readonly='status === 1'
           required>
         </v-text-field>
       </v-form>
@@ -34,49 +34,49 @@
       <v-btn
         v-if="status === 0"
         :loading="loading"
-        @click.native="onFind()"
         :disabled="!validemail"
         class="white--text mt-3 ml-0"
         color="button"
+        @click.native="onFind()"
       >
         Find Account
         <span slot="loader">Connecting...</span>
       </v-btn>
 
       <v-form
-        v-model="validcode" ref="form"
-        v-if="status === 1"
+        v-if="status === 1" ref="form"
+        v-model="validcode"
       >
         <v-text-field
-          color="grey"
-          label="Confirmation Code"
           v-model="code"
           :rules="codeRules"
+          color="grey"
+          label="Confirmation Code"
           class="mt-2"
           required>
         </v-text-field>
         <v-text-field
-          color="grey"
-          autocomplete="new-password"
-          label="New Password"
           v-model="password"
           :rules="passRules"
           :append-icon="hidepw ? 'visibility' : 'visibility_off'"
-          @click:append="() => (hidepw = !hidepw)"
           :type="hidepw ? 'password' : 'text'"
-          required>
+          color="grey"
+          autocomplete="new-password"
+          label="New Password"
+          required
+          @click:append="() => (hidepw = !hidepw)">
         </v-text-field>
       </v-form>
 
       <v-btn
-        block
-        large
         v-if="status === 1"
         :loading="loading"
-        @click.native="onSubmit()"
         :disabled="!validcode"
+        block
+        large
         class="white--text"
         color="button"
+        @click.native="onSubmit()"
       >
         Confirm
         <span slot="loader">Updating password...</span>
@@ -85,8 +85,8 @@
 
     <v-card-actions class="pb-2 px-4">
       <v-spacer></v-spacer>
-      <v-btn nuxt flat small :to="'/auth/signin'">Sign In</v-btn>
-      <v-btn nuxt flat small :to="'/auth/signup'">Sign Up</v-btn>
+      <v-btn :to="'/auth/signin'" nuxt flat small>Sign In</v-btn>
+      <v-btn :to="'/auth/signup'" nuxt flat small>Sign Up</v-btn>
     </v-card-actions>
 
   </div>

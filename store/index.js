@@ -1,5 +1,3 @@
-// Global Store
-
 export const state = () => ({
   sample: 0
 })

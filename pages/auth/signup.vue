@@ -90,7 +90,11 @@ export default {
   }),
   methods: {
     onSubmit() {
-      this.$store.dispatch('auth/signUpUser').then(() => {
+      let payload = {
+        username: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('auth/signUpUser', payload).then(() => {
         console.log('sign up then...')
       })
     }

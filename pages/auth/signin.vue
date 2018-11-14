@@ -73,7 +73,7 @@ export default {
     hidepw: true,
     loader: false,
     loading: false,
-    email: '',
+    email: 'sonabstudios@gmail.com',
     emailrules: {
       required: value => !!value || 'E-mail is required',
       email: value => {
@@ -81,7 +81,7 @@ export default {
         return pattern.test(value) || 'E-mail must be valid'
       }
     },
-    password: '',
+    password: 'Gr@ffiti22',
     passRules: [
       v => !!v || 'Password is required',
       v => !v || v.length >= 8 || 'Password must be at least 8 characters'
@@ -89,7 +89,14 @@ export default {
   }),
   methods: {
     onSubmit() {
-      this.$store.dispatch('auth/signInUser')
+      let payload = {
+        username: this.email,
+        password: this.password
+      }
+      this.$store
+        .dispatch('auth/signInUser', payload)
+        .then(user => console.log(user))
+        .catch(err => console.log(err))
     }
   },
   layout: 'auth',

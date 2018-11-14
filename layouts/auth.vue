@@ -2,10 +2,8 @@
   <v-app>
     <div>
       <v-toolbar
-        :clipped-left="$vuetify.breakpoint.mdAndUp"
         color="primary"
         class="elevation-0 ma-0 pa-0"
-        app
       >
         <nuxt-link :to="'/'">
           <v-icon
@@ -23,10 +21,10 @@
           <span class="grey--text test--darken-3 font-weight-medium">Demo</span>
         </v-toolbar-title>
       </v-toolbar>
+      <v-divider></v-divider>
     </div>
 
     <v-content>
-      <v-divider></v-divider>
       <v-container fluid fill-height class="pa-2">
         <v-layout justify-center align-start>
 
