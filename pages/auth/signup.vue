@@ -20,7 +20,6 @@
         outline type="error" class="mb-4 mt-0">
         {{ errmsg }}
       </v-alert>
-
       <v-form
         v-if="step !== 2"
         ref="form0"
@@ -51,14 +50,13 @@
       <v-btn
         v-if="step === 0"
         :loading="loading"
-        :disabled="!valid0"
+        :disabled="!(valid0 && !loading)"
         block
         large
         class="white--text"
         color="button"
         @click.native="onSubmit()">
         Sign Up
-        <span slot="loader">Connecting...</span>
       </v-btn>
 
       <v-form v-if="step === 1" ref="form1" v-model="valid1">
@@ -75,14 +73,13 @@
       <v-btn
         v-if="step === 1"
         :loading="loading"
-        :disabled="!valid1"
+        :disabled="!(valid1 && !loading)"
         block
         large
         class="mt-3 mb-3 white--text"
         color="button"
         @click.native="onConfirm()">
         Confirm
-        <span slot="loader">Connecting...</span>
       </v-btn>
 
       <div v-if="step === 2">
@@ -131,7 +128,6 @@ export default {
     errmsg: '',
     valid0: false,
     valid1: false,
-    loader: false,
     loading: false,
     email: {
       value: '',
@@ -171,9 +167,7 @@ export default {
   }),
   methods: {
     onSubmit() {
-      this.loader = 'loading'
-      const l = this.loader
-      this[l] = !this[l]
+      this.loading = true
 
       let payload = {
         username: this.email.value,
@@ -194,11 +188,12 @@ export default {
           }, 2000)
         })
         .finally(() => {
-          this[l] = false
-          this.loader = null
+          this.loading = false
         })
     },
     onConfirm() {
+      this.loading = true
+
       let payload = {
         username: this.email.value,
         code: this.code.value
@@ -216,8 +211,7 @@ export default {
           }, 2000)
         })
         .finally(() => {
-          this[l] = false
-          this.loader = null
+          this.loading = false
         })
     }
   },
