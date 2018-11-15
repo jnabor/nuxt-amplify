@@ -6,13 +6,14 @@ Auth.configure({
   // REQUIRED - Amazon Cognito Region
   region: 'ap-southeast-1',
   // OPTIONAL - Amazon Cognito User Pool ID
-  userPoolId: 'ap-southeast-1_h8QMALq3B',
+  userPoolId: 'ap-southeast-1_pg6I6G46d',
   // OPTIONAL - Amazon Cognito Web Client ID
-  userPoolWebClientId: '79d74c4kru8cdnvg955psden6v'
+  userPoolWebClientId: '1sk4imnbv6lpoj5do1bgk4k796'
 })
 
 const state = () => ({
-  sample: ''
+  username: '',
+  userGroup: ''
 })
 
 export const getters = {
@@ -30,9 +31,16 @@ export const mutations = {
 
 export const actions = {
   signUpUser(state, payload) {
-    Auth.signUp(payload)
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
+    let attributes = {
+      username: payload.username,
+      password: payload.password
+    }
+    return Auth.signUp(attributes)
+  },
+  confirmSignUp(state, payload) {
+    return Auth.confirmSignUp(payload.username, payload.code, {
+      forceAliasCreation: true
+    })
   },
   signInUser(state, payload) {
     return Auth.signIn(payload.username, payload.password)

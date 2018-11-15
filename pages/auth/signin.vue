@@ -18,7 +18,9 @@
         {{ errmsg }}
       </v-alert>
 
-      <v-form ref="form" v-model="valid">
+      <v-form
+        v-if="step === 0"
+        ref="form" v-model="valid">
 
         <v-text-field
           v-model="email"
@@ -67,6 +69,7 @@
 <script>
 export default {
   data: () => ({
+    step: 0,
     showerr: false,
     errmsg: '',
     valid: false,
@@ -93,10 +96,7 @@ export default {
         username: this.email,
         password: this.password
       }
-      this.$store
-        .dispatch('auth/signInUser', payload)
-        .then(user => console.log(user))
-        .catch(err => console.log(err))
+      this.$store.dispatch('auth/signInUser', payload)
     }
   },
   layout: 'auth',
