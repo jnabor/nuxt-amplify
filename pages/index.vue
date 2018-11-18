@@ -117,7 +117,9 @@ export default {
   // lifecycle hooks
   beforeCreate() {},
   created() {},
-  beforeMount() {},
+  mounted() {
+    console.log(this.$store.getters['auth/isAuthenticated'])
+  },
   mounted() {
     setTimeout(() => {
       this.show0 = true

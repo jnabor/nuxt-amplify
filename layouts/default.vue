@@ -26,11 +26,20 @@
         <v-spacer></v-spacer>
         <v-toolbar-items >
           <v-btn
+            v-if="!isAuthenticated"
             :to="'/auth/signin'"
             class="grey--text test--darken-3" nuxt
             flat
           >
             Sign In
+          </v-btn>
+          <v-btn
+            v-else
+            class="grey--text test--darken-3"
+            flat
+            @click="onSignOut"
+          >
+            Sign Out
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -156,13 +165,13 @@
 
 <script>
 export default {
-  middleware: 'log',
+  middleware: 'auth',
   props: {
     source: String
   },
   data: () => ({
     dialog: false,
-    drawer: null,
+    drawer: false,
     items: [
       { icon: 'contacts', text: 'Members' },
       { icon: 'history', text: 'Events ' },
@@ -188,6 +197,21 @@ export default {
       },
       { icon: 'settings', text: 'Settings' }
     ]
-  })
+  }),
+  mounted() {},
+  methods: {
+    isAuthenticated() {
+      return true
+    },
+    async onSignOut() {
+      console.log('signing out...')
+      try {
+        let data = await this.Auth.signOut()
+        this.$router.push('/')
+      } catch {
+        console.log('error')
+      }
+    }
+  }
 }
 </script>

@@ -57,7 +57,12 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify'],
+  plugins: [
+    { src: '@/plugins/auth.js', ssr: false },
+    { src: '~/plugins/core-components', ssr: true },
+    { src: '~/plugins/errcode', ssr: false },
+    { src: '~/plugins/vuetify', ssr: true }
+  ],
 
   /*
    ** Nuxt.js modules
@@ -78,10 +83,7 @@ module.exports = {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-          options: {
-            fix: true
-          }
+          exclude: /(node_modules)/
         })
       }
     }

@@ -46,18 +46,13 @@
           @click:append="() => (password.hidden = !password.hidden)">
         </v-text-field>
       </v-form>
-
-      <v-btn
+      <appMainBtn
         v-if="step === 0"
         :loading="loading"
         :disabled="!(valid0 && !loading)"
-        block
-        large
-        class="white--text"
-        color="button"
-        @click.native="onSubmit()">
-        Sign Up
-      </v-btn>
+        :label="'Sign Up'"
+        @submit="signUpUser()">
+      </appMainBtn>
 
       <v-form v-if="step === 1" ref="form1" v-model="valid1">
         <h4 class="subheading mb-0 accent--text">Enter Confirmation Code</h4>
@@ -70,17 +65,13 @@
           required>
         </v-text-field>
       </v-form>
-      <v-btn
+      <appMainBtn
         v-if="step === 1"
         :loading="loading"
         :disabled="!(valid1 && !loading)"
-        block
-        large
-        class="mt-3 mb-3 white--text"
-        color="button"
-        @click.native="onConfirm()">
-        Confirm
-      </v-btn>
+        :label="'Confirm'"
+        @submit="confirmSignUp()">
+      </appMainBtn>
 
       <div v-if="step === 2">
         <v-img
@@ -119,8 +110,6 @@
 </template>
 
 <script>
-import getErrcode from '@/plugins/error-codes'
-
 export default {
   data: () => ({
     step: 0,
@@ -166,53 +155,45 @@ export default {
     }
   }),
   methods: {
-    onSubmit() {
+    async signUpUser() {
       this.loading = true
-
-      let payload = {
-        username: this.email.value,
-        password: this.password.value
+      try {
+        let data = await Auth.signUp({
+          username: this.email.value,
+          password: this.password.value
+        })
+        this.email.disabled = true
+        this.password.disabled = true
+        this.step++
+      } catch (err) {
+        this.errmsg = this.$getErrorCode(err.message)
+        this.showerr = true
+        setTimeout(() => {
+          this.showerr = false
+        }, 2000)
       }
-      this.$store
-        .dispatch('auth/signUpUser', payload)
-        .then(user => {
-          this.email.disabled = true
-          this.password.disabled = true
-          this.step++
-        })
-        .catch(err => {
-          this.errmsg = getErrcode(err.message)
-          this.showerr = true
-          setTimeout(() => {
-            this.showerr = false
-          }, 2000)
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      this.loading = false
     },
-    onConfirm() {
-      this.loading = true
 
-      let payload = {
-        username: this.email.value,
-        code: this.code.value
+    async confirmSignUp() {
+      this.loading = true
+      try {
+        let data = await this.$amplify.Auth.confirmSignUp(
+          this.email.value,
+          this.code.value,
+          {
+            forceAliasCreation: true
+          }
+        )
+        this.step++
+      } catch (err) {
+        this.errmsg = this.$getErrorCode(err.message)
+        this.showerr = true
+        setTimeout(() => {
+          this.showerr = false
+        }, 2000)
       }
-      this.$store
-        .dispatch('auth/confirmSignUp', payload)
-        .then(data => {
-          this.step++
-        })
-        .catch(err => {
-          this.errmsg = getErrcode(err.message)
-          this.showerr = true
-          setTimeout(() => {
-            this.showerr = false
-          }, 2000)
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      this.loading = false
     }
   },
   layout: 'auth',

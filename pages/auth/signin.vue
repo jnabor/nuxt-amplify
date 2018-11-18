@@ -14,47 +14,39 @@
     <v-divider></v-divider>
 
     <v-card-text class="pt-4 px-4">
-      <v-alert v-model="showerr" outline type="error" dismissible class="mb-4 mt-0">
-        {{ errmsg }}
-      </v-alert>
+      <appAlert :show="showerr" :type="'error'" :message="errmsg"/>
 
       <v-form
         v-if="step === 0"
         ref="form" v-model="valid">
 
         <v-text-field
-          v-model="email"
-          :rules="[emailrules.required, emailrules.email]"
+          v-model="email.value"
+          :rules="email.rules"
           color="grey"
           label="E-mail"
           required>
         </v-text-field>
 
         <v-text-field
-          v-model="password"
-          :rules="passRules"
-          :append-icon="hidepw ? 'visibility' : 'visibility_off'"
-          :type="hidepw ? 'password' : 'text'"
+          v-model="password.value"
+          :rules="password.rules"
+          :append-icon="password.hidden? 'visibility' : 'visibility_off'"
+          :type="password.hidden ? 'password' : 'text'"
           color="grey"
           label="Password"
           hint="At least 8 characters"
           required
-          @click:append="() => (hidepw = !hidepw)">
+          @click:append="() => (password.hidden = !password.hidden)">
         </v-text-field>
 
       </v-form>
-
-      <v-btn
+      <appMainBtn
         :loading="loading"
-        :disabled="!valid"
-        block
-        large
-        class="white--text"
-        color="button"
-        @click.native="onSubmit()">
-        Sign In
-        <span slot="loader">Connecting...</span>
-      </v-btn>
+        :disabled="!(valid && !loading)"
+        :label="'Sign In'"
+        @submit="signInUser()">
+      </appMainBtn>
     </v-card-text>
 
     <v-card-actions class="pb-2 px-4">
@@ -73,30 +65,67 @@ export default {
     showerr: false,
     errmsg: '',
     valid: false,
-    hidepw: true,
-    loader: false,
     loading: false,
-    email: 'sonabstudios@gmail.com',
-    emailrules: {
-      required: value => !!value || 'E-mail is required',
-      email: value => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        return pattern.test(value) || 'E-mail must be valid'
-      }
+    email: {
+      value: 'sonabstudios@gmail.com',
+      rules: [
+        v => !!v || 'E-mail is required',
+        v => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(v) || 'E-mail must be valid'
+        }
+      ]
     },
-    password: 'Gr@ffiti22',
-    passRules: [
-      v => !!v || 'Password is required',
-      v => !v || v.length >= 8 || 'Password must be at least 8 characters'
-    ]
+    password: {
+      value: 'Gr@ffiti22',
+      hidden: true,
+      rules: [
+        v => !!v || 'Password is required',
+        v => !v || v.length >= 8 || 'Password must be 8-20 characters',
+        v =>
+          /^(?=.*[0-9])/.test(v) || 'Password must contain at least 1 number',
+        v =>
+          /^(?=.*[a-z])/.test(v) ||
+          'Password must contain at least 1 lower case letter',
+        v =>
+          /^(?=.*[A-Z])/.test(v) ||
+          'Password must contain at least 1 upper case letter',
+        v =>
+          /^(?=.*[!@#$%^&*"])/.test(v) ||
+          'Password must contain at least 1 special character (!@#$%^&*")'
+      ]
+    }
   }),
   methods: {
-    onSubmit() {
-      let payload = {
-        username: this.email,
-        password: this.password
+    async signInUser() {
+      this.loading = true
+
+      this.$auth.configure({
+        // REQUIRED - Amazon Cognito Identity Pool ID
+        identityPoolId: 'ap-southeast-1:a86e9dd5-3517-489f-a39b-a908ca0a1ea3',
+        // REQUIRED - Amazon Cognito Region
+        region: 'ap-southeast-1',
+        // OPTIONAL - Amazon Cognito User Pool ID
+        userPoolId: 'ap-southeast-1_pg6I6G46d',
+        // OPTIONAL - Amazon Cognito Web Client ID
+        userPoolWebClientId: '1sk4imnbv6lpoj5do1bgk4k796'
+      })
+      try {
+        let user = await this.$auth.signIn(
+          this.email.value,
+          this.password.value
+        )
+        console.log(user)
+        this.$router.push('/')
+      } catch (err) {
+        console.log(err)
+        this.errmsg = this.$getErrorCode(err.message)
+        this.showerr = true
+        setTimeout(() => {
+          this.showerr = false
+        }, 2000)
       }
-      this.$store.dispatch('auth/signInUser', payload)
+      this.loading = false
     }
   },
   layout: 'auth',
