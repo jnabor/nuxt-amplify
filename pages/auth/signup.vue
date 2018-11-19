@@ -158,7 +158,7 @@ export default {
     async signUpUser() {
       this.loading = true
       try {
-        let data = await Auth.signUp({
+        let data = await this.$auth.signUp({
           username: this.email.value,
           password: this.password.value
         })
@@ -178,7 +178,7 @@ export default {
     async confirmSignUp() {
       this.loading = true
       try {
-        let data = await this.$amplify.Auth.confirmSignUp(
+        let data = await this.$auth.confirmSignUp(
           this.email.value,
           this.code.value,
           {
