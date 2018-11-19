@@ -165,7 +165,6 @@
 
 <script>
 export default {
-  middleware: 'auth',
   props: {
     source: String
   },
@@ -198,18 +197,31 @@ export default {
       { icon: 'settings', text: 'Settings' }
     ]
   }),
-  mounted() {},
+  computed: {
+    isAuthenticated: function() {
+      console.log('computed', this.$store.getters.isAuthenticated)
+      return this.$store.getters.isAuthenticated || false
+    }
+  },
+  beforeCreated: async function() {
+    try {
+      console.log('try sign in...')
+      let user = await this.$auth.currentAuthenticatedUser()
+      console.log('signed in...')
+      this.$store.dispatch('setUser', user)
+    } catch (err) {
+      console.log('not signed in...')
+    }
+  },
   methods: {
-    isAuthenticated() {
-      return true
-    },
     async onSignOut() {
       console.log('signing out...')
       try {
-        let data = await this.Auth.signOut()
+        let data = await this.$auth.signOut({ global: true })
+        this.$store.dispatch('logOut', false)
         this.$router.push('/')
       } catch {
-        console.log('error')
+        console.log('sign out error...')
       }
     }
   }

@@ -111,6 +111,7 @@
 
 <script>
 export default {
+  middleware: 'noauth',
   data: () => ({
     step: 0,
     showerr: false,

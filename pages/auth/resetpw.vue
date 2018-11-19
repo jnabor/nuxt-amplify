@@ -94,6 +94,7 @@
 
 <script>
 export default {
+  middleware: ['noauth'],
   data: () => ({
     status: 0,
     msg: 'A confirmation code will be sent to your email address',

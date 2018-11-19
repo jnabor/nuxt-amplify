@@ -10,6 +10,7 @@
             <v-card-title primary class="title">
               <div>
                 <v-btn
+                  v-if="!isAuthenticated"
                   :to="'/auth/signup'"
                   outline
                   nuxt
@@ -114,6 +115,12 @@ export default {
     show5: false,
     show6: false
   }),
+  computed: {
+    isAuthenticated: function() {
+      console.log('computed', this.$store.getters.isAuthenticated)
+      return this.$store.getters.isAuthenticated || false
+    }
+  },
   // lifecycle hooks
   beforeCreate() {},
   created() {},

@@ -58,10 +58,10 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: '@/plugins/auth.js', ssr: false },
-    { src: '~/plugins/core-components', ssr: true },
+    { src: '~/plugins/auth', ssr: false },
+    { src: '~/plugins/core-components', ssr: false },
     { src: '~/plugins/errcode', ssr: false },
-    { src: '~/plugins/vuetify', ssr: true }
+    { src: '~/plugins/vuetify', ssr: false }
   ],
 
   /*

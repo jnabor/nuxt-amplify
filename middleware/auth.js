@@ -1,7 +1,8 @@
 export default function(context) {
-  if (context.store.getters['auth/isAuthenticated']) {
-    console.log('mw:user is authenticated...')
-  } else {
-    console.log('mw: user is not authenticated...')
+  if (process.client) {
+    console.log('auth middleware', context.store.getters.isAuthenticated)
+    if (!context.store.getters.isAuthenticated) {
+      // context.redirect('/auth/signin')
+    }
   }
 }
